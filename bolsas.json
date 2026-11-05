@@ -1,0 +1,12 @@
+[
+  {
+    "nome": "Bolsa de exemplo A",
+    "pais": "Canadá",
+    "prazo": "2027-03-15"
+  },
+  {
+    "nome": "Bolsa de exemplo B",
+    "pais": "Estados Unidos",
+    "prazo": "2027-04-20"
+  }
+]
