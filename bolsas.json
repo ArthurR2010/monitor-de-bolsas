@@ -8,5 +8,10 @@
     "nome": "Bolsa de exemplo B",
     "pais": "Estados Unidos",
     "prazo": "2027-04-20"
+  },
+  {
+    "nome": "Bolsa de exemplo C",
+    "pais": "Suécia",
+    "prazo": "2027-05-10"
   }
 ]
