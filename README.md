@@ -12,6 +12,7 @@ de bolsas de estudo.
 - Apresentação das datas no formato brasileiro.
 - Filtro por país, sem diferenciar maiúsculas de minúsculas.
 - Contagem das oportunidades encontradas.
+- Geração de uma tabela em Markdown, ordenada por prazo.
 
 Os dados atuais são fictícios e servem apenas para testes.
 O programa ainda não busca oportunidades na internet.
@@ -26,9 +27,20 @@ No terminal, dentro da pasta do projeto, execute:
 python main.py
 ```
 
+## Tabela de oportunidades
+
+Veja a [tabela de bolsas](BOLSAS.md).
+
+Para gerar ou atualizar a tabela a partir do JSON, execute:
+
+```bash
+python gerar_tabela.py
+```
+
+Os dados apresentados ainda são fictícios.
+
 ## Próximas melhorias
 
-- Gerar uma tabela de oportunidades em Markdown.
 - Consultar uma fonte real e automatizar as atualizações.
 
 ## Desenvolvimento
