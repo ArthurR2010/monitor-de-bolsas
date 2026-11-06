@@ -5,8 +5,13 @@ de bolsas de estudo.
 
 ## Funcionalidades atuais
 
+## Funcionalidades atuais
+
 - Leitura de dados de um arquivo JSON.
 - Exibição do nome, país e prazo de cada oportunidade no terminal.
+- Apresentação das datas no formato brasileiro.
+- Filtro por país, sem diferenciar maiúsculas de minúsculas.
+- Contagem das oportunidades encontradas.
 
 Os dados atuais são fictícios e servem apenas para testes.
 O programa ainda não busca oportunidades na internet.
@@ -23,8 +28,6 @@ python main.py
 
 ## Próximas melhorias
 
-- Formatar as datas no padrão brasileiro.
-- Filtrar bolsas por país.
 - Gerar uma tabela de oportunidades em Markdown.
 - Consultar uma fonte real e automatizar as atualizações.
 
