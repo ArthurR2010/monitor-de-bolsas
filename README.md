@@ -39,6 +39,24 @@ python gerar_tabela.py
 
 Os dados apresentados ainda são fictícios.
 
+## Coleta de publicações reais
+
+O projeto consulta o feed RSS do Estudar Fora e salva
+títulos, links e fonte no arquivo noticias.json.
+
+Para executar:
+
+```bash
+python coletar_noticias.py
+```
+
+As publicações podem incluir notícias e orientações gerais.
+A coleta ainda não identifica país, prazo de inscrição
+ou se uma bolsa está aberta.
+
+O arquivo bolsas.json e a tabela BOLSAS.md continuam
+utilizando dados fictícios para testes.
+
 ## Próximas melhorias
 
 - Consultar uma fonte real e automatizar as atualizações.
