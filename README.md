@@ -57,6 +57,31 @@ ou se uma bolsa está aberta.
 O arquivo bolsas.json e a tabela BOLSAS.md continuam
 utilizando dados fictícios para testes.
 
+## Página de publicações
+
+Veja as [publicações coletadas do Estudar Fora](NOTICIAS.md).
+
+Para atualizar os dados da fonte, execute:
+
+```bash
+python coletar_noticias.py
+```
+
+Se a coleta terminar com sucesso, gere a página:
+
+```bash
+python gerar_noticias.py
+```
+
+A página separa títulos que mencionam "bolsa" ou "bolsas"
+das outras publicações do feed.
+
+Esse filtro não confirma inscrições abertas.
+País, requisitos e prazos devem ser consultados na fonte original.
+
+Os dados reais ficam em noticias.json e NOTICIAS.md.
+Os arquivos bolsas.json e BOLSAS.md continuam com exemplos fictícios.
+
 ## Próximas melhorias
 
 - Consultar uma fonte real e automatizar as atualizações.
