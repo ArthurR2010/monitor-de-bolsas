@@ -29,6 +29,7 @@ O projeto é independente e não possui vínculo com o Estudar Fora.
 - Geração de uma página em Markdown.
 - Atualização automática pelo GitHub Actions.
 - Criação de commit automático apenas quando há alterações.
+- Coleta e exibição das datas de publicação fornecidas pelo feed.
 
 ## Automação
 
@@ -115,7 +116,6 @@ da coleta automática.
 
 ## Próximas melhorias
 
-- Registrar a data de publicação das notícias.
 - Melhorar a identificação de conteúdos sobre bolsas.
 - Adicionar oportunidades com país e prazo verificados.
 - Ampliar a cobertura de fontes.
