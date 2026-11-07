@@ -1,67 +1,59 @@
-# Monitor de Bolsas
+# Monitor de Bolsas 🎓
 
-Projeto de aprendizado em Python para organizar oportunidades
-de bolsas de estudo.
+[![Atualizar notícias](https://github.com/ArthurR2010/monitor-de-bolsas/actions/workflows/atualizar-noticias.yml/badge.svg)](https://github.com/ArthurR2010/monitor-de-bolsas/actions/workflows/atualizar-noticias.yml)
 
-## Funcionalidades atuais
+Projeto de aprendizado em Python para acompanhar publicações
+sobre estudos e bolsas no exterior.
 
-## Funcionalidades atuais
+O programa consulta o feed RSS do Estudar Fora, organiza os
+títulos e gera uma página com links para as publicações originais.
 
-- Leitura de dados de um arquivo JSON.
-- Exibição do nome, país e prazo de cada oportunidade no terminal.
-- Apresentação das datas no formato brasileiro.
-- Filtro por país, sem diferenciar maiúsculas de minúsculas.
-- Contagem das oportunidades encontradas.
-- Geração de uma tabela em Markdown, ordenada por prazo.
+## Publicações reais
 
-Os dados atuais são fictícios e servem apenas para testes.
-O programa ainda não busca oportunidades na internet.
+➡️ [Consultar publicações coletadas](NOTICIAS.md)
 
-## Como executar
+A página separa os títulos que mencionam "bolsa" ou "bolsas"
+das demais publicações do feed.
+
+**A presença na lista não confirma inscrições abertas.**
+País, requisitos e prazos devem ser verificados na fonte original.
+
+O projeto é independente e não possui vínculo com o Estudar Fora.
+
+## Funcionalidades
+
+- Coleta de títulos e links de um feed RSS.
+- Armazenamento das publicações em JSON.
+- Separação das notícias por palavras no título.
+- Remoção de links duplicados na página gerada.
+- Geração de uma página em Markdown.
+- Atualização automática pelo GitHub Actions.
+- Criação de commit automático apenas quando há alterações.
+
+## Automação
+
+O workflow está configurado para executar diariamente às
+12h17 UTC, equivalentes a 09h17 no horário de Brasília.
+O início da execução pode sofrer atrasos.
+
+Também é possível executar manualmente:
+
+1. Abra a aba Actions do repositório.
+2. Selecione Atualizar notícias.
+3. Clique em Run workflow.
+4. Escolha a branch main e confirme.
+
+A automação executa a coleta, gera a página e salva as mudanças.
+Se a coleta falhar, as etapas seguintes não são executadas.
+
+Os commits automáticos são atribuídos ao github-actions[bot].
+
+## Como executar no computador
 
 É necessário ter Python 3 instalado.
+Os scripts usam apenas bibliotecas que acompanham o Python.
 
-No terminal, dentro da pasta do projeto, execute:
-
-```bash
-python main.py
-```
-
-## Tabela de oportunidades
-
-Veja a [tabela de bolsas](BOLSAS.md).
-
-Para gerar ou atualizar a tabela a partir do JSON, execute:
-
-```bash
-python gerar_tabela.py
-```
-
-Os dados apresentados ainda são fictícios.
-
-## Coleta de publicações reais
-
-O projeto consulta o feed RSS do Estudar Fora e salva
-títulos, links e fonte no arquivo noticias.json.
-
-Para executar:
-
-```bash
-python coletar_noticias.py
-```
-
-As publicações podem incluir notícias e orientações gerais.
-A coleta ainda não identifica país, prazo de inscrição
-ou se uma bolsa está aberta.
-
-O arquivo bolsas.json e a tabela BOLSAS.md continuam
-utilizando dados fictícios para testes.
-
-## Página de publicações
-
-Veja as [publicações coletadas do Estudar Fora](NOTICIAS.md).
-
-Para atualizar os dados da fonte, execute:
+Primeiro, colete as publicações:
 
 ```bash
 python coletar_noticias.py
@@ -73,20 +65,65 @@ Se a coleta terminar com sucesso, gere a página:
 python gerar_noticias.py
 ```
 
-A página separa títulos que mencionam "bolsa" ou "bolsas"
-das outras publicações do feed.
+O resultado será salvo em NOTICIAS.md.
 
-Esse filtro não confirma inscrições abertas.
-País, requisitos e prazos devem ser consultados na fonte original.
+## Estrutura do projeto
 
-Os dados reais ficam em noticias.json e NOTICIAS.md.
-Os arquivos bolsas.json e BOLSAS.md continuam com exemplos fictícios.
+| Arquivo | Função |
+| --- | --- |
+| coletar_noticias.py | Consulta o feed e salva as publicações |
+| noticias.json | Armazena os títulos e links coletados |
+| gerar_noticias.py | Organiza as publicações e gera a página |
+| NOTICIAS.md | Apresenta as publicações reais |
+| .github/workflows/atualizar-noticias.yml | Configura a automação |
+| main.py | Consulta exemplos fictícios pelo terminal |
+| bolsas.json | Armazena bolsas fictícias para aprendizado |
+| gerar_tabela.py | Gera a tabela dos exemplos fictícios |
+| BOLSAS.md | Exibe a tabela dos exemplos fictícios |
+
+## Exemplos de aprendizado
+
+A primeira etapa do projeto utiliza bolsas fictícias para
+praticar leitura de JSON, filtros por país e formatação de datas.
+
+Para consultar esses exemplos:
+
+```bash
+python main.py
+```
+
+Para atualizar a tabela dos exemplos:
+
+```bash
+python gerar_tabela.py
+```
+
+➡️ [Ver tabela de exemplos fictícios](BOLSAS.md)
+
+Esses exemplos não são oportunidades reais e não fazem parte
+da coleta automática.
+
+## Limitações atuais
+
+- A coleta utiliza apenas uma fonte.
+- O feed pode disponibilizar somente parte das publicações do site.
+- O filtro considera apenas as palavras "bolsa" e "bolsas" no título.
+- O programa ainda não identifica país ou prazo de inscrição.
+- A lista não confirma a disponibilidade das oportunidades.
+- Os arquivos mostram a última coleta salva com sucesso.
+- Mudanças na fonte podem exigir ajustes no coletor.
 
 ## Próximas melhorias
 
-- Consultar uma fonte real e automatizar as atualizações.
+- Registrar a data de publicação das notícias.
+- Melhorar a identificação de conteúdos sobre bolsas.
+- Adicionar oportunidades com país e prazo verificados.
+- Ampliar a cobertura de fontes.
 
-## Desenvolvimento
+## Aprendizados
 
-Projeto desenvolvido como prática de programação,
-com assistência de IA na construção e explicação do código.
+Este projeto aplica Python, JSON, XML/RSS, expressões regulares,
+tratamento de erros, Git, GitHub e GitHub Actions.
+
+Desenvolvido por Arthur Rodrigues, com assistência de IA
+na construção e explicação do código.
