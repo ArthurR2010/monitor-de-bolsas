@@ -30,6 +30,9 @@ O projeto é independente e não possui vínculo com o Estudar Fora.
 - Atualização automática pelo GitHub Actions.
 - Criação de commit automático apenas quando há alterações.
 - Coleta e exibição das datas de publicação fornecidas pelo feed.
+- Validação da estrutura dos links durante a coleta.
+- Remoção de publicações duplicadas antes de salvar o JSON.
+- Gravação temporária antes de substituir o arquivo de dados.
 
 ## Automação
 
