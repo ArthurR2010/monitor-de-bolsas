@@ -33,6 +33,8 @@ O projeto é independente e não possui vínculo com o Estudar Fora.
 - Validação da estrutura dos links durante a coleta.
 - Remoção de publicações duplicadas antes de salvar o JSON.
 - Gravação temporária antes de substituir o arquivo de dados.
+- Testes automáticos de links, datas, extração e gravação.
+- Execução dos testes antes da coleta no GitHub Actions.
 
 ## Automação
 
@@ -70,6 +72,20 @@ python gerar_noticias.py
 ```
 
 O resultado será salvo em NOTICIAS.md.
+
+## Testes
+
+Para executar os testes no computador:
+
+```bash
+python -m unittest discover -v
+```
+
+Os testes usam dados fictícios, não acessam a internet e não
+alteram os arquivos de publicações do projeto.
+
+Na automação, uma falha nos testes interrompe a execução
+antes da coleta.
 
 ## Estrutura do projeto
 
