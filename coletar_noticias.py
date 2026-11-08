@@ -9,12 +9,12 @@ from urllib.request import Request, urlopen
 
 URL_FEED = "https://www.estudarfora.org.br/feed/"
 
-pasta = Path(__file__).parent
-arquivo_saida = pasta / "noticias.json"
-
 
 def link_valido(link):
-    """Verifica a estrutura do link, sem acessar a página."""
+    """Verifica o formato do endereço sem acessar a internet."""
+    if not isinstance(link, str):
+        return False
+
     try:
         endereco = urlsplit(link)
 
@@ -27,20 +27,19 @@ def link_valido(link):
         return False
 
 
-requisicao = Request(
-    URL_FEED,
-    headers={
-        "User-Agent": "MonitorDeBolsas/0.1 (projeto educacional)",
-        "Accept": "application/rss+xml, application/xml, text/xml",
-    },
-)
+def converter_data(texto):
+    """Converte uma data RSS para ISO; retorna None se inválida."""
+    if not texto:
+        return None
 
-try:
-    print("Consultando publicações do Estudar Fora...")
+    try:
+        return parsedate_to_datetime(texto).isoformat()
+    except (ValueError, TypeError, OverflowError):
+        return None
 
-    with urlopen(requisicao, timeout=30) as resposta:
-        dados_xml = resposta.read()
 
+def extrair_noticias(dados_xml):
+    """Lê o XML, valida os registros e remove links repetidos."""
     raiz = ET.fromstring(dados_xml)
     noticias = []
     links_vistos = set()
@@ -51,65 +50,83 @@ try:
         link = (item.findtext("link") or "").strip()
         data_original = (item.findtext("pubDate") or "").strip()
 
-        # Ignora registros incompletos ou com links inválidos.
         if not titulo or not link_valido(link):
             descartadas += 1
             continue
 
-        # Evita salvar o mesmo link mais de uma vez.
         if link in links_vistos:
             descartadas += 1
             continue
 
         links_vistos.add(link)
 
-        publicado_em = None
-
-        if data_original:
-            try:
-                data = parsedate_to_datetime(data_original)
-                publicado_em = data.isoformat()
-            except (ValueError, TypeError, OverflowError):
-                print(f"Data não reconhecida: {titulo}")
-
         noticias.append({
             "titulo": titulo,
             "link": link,
             "fonte": "Estudar Fora",
-            "publicado_em": publicado_em,
+            "publicado_em": converter_data(data_original),
         })
 
     if not noticias:
-        raise ValueError(
-            "Nenhuma publicação válida encontrada. "
-            "O formato do feed pode ter mudado."
-        )
+        raise ValueError("Nenhuma publicação válida encontrada.")
 
+    return noticias, descartadas
+
+
+def salvar_noticias(noticias, arquivo_saida):
+    """Substitui o JSON após concluir a gravação temporária."""
     conteudo = json.dumps(
         noticias,
         ensure_ascii=False,
         indent=2,
     )
 
-    # Grava primeiro em um arquivo temporário.
-    arquivo_temporario = arquivo_saida.with_suffix(".json.tmp")
-    arquivo_temporario.write_text(
-        conteudo + "\n",
-        encoding="utf-8",
+    temporario = arquivo_saida.with_suffix(".json.tmp")
+    temporario.write_text(conteudo + "\n", encoding="utf-8")
+    temporario.replace(arquivo_saida)
+
+
+def main():
+    arquivo_saida = Path(__file__).parent / "noticias.json"
+
+    requisicao = Request(
+        URL_FEED,
+        headers={
+            "User-Agent": "MonitorDeBolsas/0.1 (projeto educacional)",
+            "Accept": "application/rss+xml, application/xml, text/xml",
+        },
     )
 
-    # Substitui o JSON anterior depois da gravação completa.
-    arquivo_temporario.replace(arquivo_saida)
+    try:
+        print("Consultando publicações do Estudar Fora...")
 
-    print(f"Publicações válidas: {len(noticias)}")
-    print(f"Registros descartados: {descartadas}")
-    print(f"Arquivo salvo: {arquivo_saida.name}")
+        with urlopen(requisicao, timeout=30) as resposta:
+            dados_xml = resposta.read()
 
-except (HTTPError, URLError, TimeoutError, ET.ParseError, ValueError) as erro:
-    print(f"Não foi possível concluir a coleta: {erro}")
-    print("Os dados anteriores foram preservados.")
-    sys.exit(1)
+        noticias, descartadas = extrair_noticias(dados_xml)
+        salvar_noticias(noticias, arquivo_saida)
 
-except OSError as erro:
-    print(f"Falha ao acessar ou salvar os arquivos: {erro}")
-    sys.exit(1)
+        print(f"Publicações válidas: {len(noticias)}")
+        print(f"Registros descartados: {descartadas}")
+        print(f"Arquivo salvo: {arquivo_saida.name}")
+
+    except (
+        HTTPError,
+        URLError,
+        TimeoutError,
+        ET.ParseError,
+        ValueError,
+    ) as erro:
+        print(f"Falha na coleta: {erro}")
+        print("Os dados anteriores foram preservados.")
+        return 1
+
+    except OSError as erro:
+        print(f"Falha ao acessar ou salvar os arquivos: {erro}")
+        return 1
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
