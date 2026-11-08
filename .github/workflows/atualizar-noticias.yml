@@ -26,6 +26,9 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Executar testes
+        run: python -m unittest discover -v
+      
       - name: Coletar notícias
         run: python coletar_noticias.py
 
